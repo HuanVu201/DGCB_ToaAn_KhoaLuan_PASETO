@@ -1,0 +1,16 @@
+global using Ardalis.Specification;
+global using FluentValidation;
+global using TD.DanhGiaCanBo.Application.Common.Events;
+global using TD.DanhGiaCanBo.Application.Common.Exceptions;
+global using TD.DanhGiaCanBo.Application.Common.FileStorage;
+global using TD.DanhGiaCanBo.Application.Common.Interfaces;
+global using TD.DanhGiaCanBo.Application.Common.Models;
+global using TD.DanhGiaCanBo.Application.Common.Persistence;
+global using TD.DanhGiaCanBo.Application.Common.Specification;
+global using TD.DanhGiaCanBo.Application.Common.Validation;
+global using TD.DanhGiaCanBo.Domain.Common;
+global using TD.DanhGiaCanBo.Domain.Common.Contracts;
+global using TD.DanhGiaCanBo.Shared.Notifications;
+global using MediatR;
+global using Microsoft.Extensions.Localization;
+global using Microsoft.Extensions.Logging;

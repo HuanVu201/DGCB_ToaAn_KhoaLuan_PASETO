@@ -1,0 +1,29 @@
+﻿@{
+    Layout = "_Layout";
+}
+<style type="text/css">
+    body {
+        background-color: #111111;
+        color: #eeeeee;
+        font-family: tahoma, arial, sans-serif;
+        padding-left: 100px;
+    }
+
+    h4 {
+        margin-bottom: 1px;
+    }
+</style>
+
+
+<h1>SERVER STATUS</h1>    
+
+<h4>RAM usage (MB)</h4>
+<canvas id="ram-status" width="800px" height="200px"></canvas>
+
+<h4>CPU usage (%)</h4>
+<canvas id="cpu-status" width="800px" height="200px"></canvas>
+
+
+<script type="text/javascript" src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+<script type="text/javascript" src="~/js/smoothie.js"></script>
+<script type="text/javascript" src="~/js/ServerStatus.js"></script>

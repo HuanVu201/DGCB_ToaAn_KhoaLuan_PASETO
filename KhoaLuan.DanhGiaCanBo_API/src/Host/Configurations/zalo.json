@@ -1,0 +1,20 @@
+﻿{
+  "ZaloSetting": {
+    "urlZaloAPI": "",
+    "urlZaloGetUserAPI": "",
+    "urlZaloGetToken": "",
+    "urlHCC": "",
+    "urlImageOA": "",
+    "urlBackgroundOA": "",
+    "urlHuongDanTraCuu": "",
+    "urlLogoOA": "",
+    "maCauHinh": "zalo_token",
+    "appId": "",
+    "secretKey": "",
+    "idTemplateTraCuuHoSo": "",
+    "usingTemplate": true, // gửi template thay vì gửi text và ngc lại
+    "ctaLinkHostName": "",
+    "enableRefreshToken": false,
+    "enable": true
+  }
+}

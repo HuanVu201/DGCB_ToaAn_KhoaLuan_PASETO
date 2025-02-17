@@ -1,0 +1,73 @@
+.noteColorHoSo {
+    position: absolute;
+    right: 110px;
+
+    .ant-space-item {
+        .ant-badge.ant-badge-status .ant-badge-status-dot {
+            position: relative;
+            top: -1px;
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            vertical-align: middle;
+            border-radius: 30%;
+        }
+
+        .ant-badge.ant-badge-status .ant-badge-status-text {
+            margin-inline-start: 3px;
+            color: rgba(0, 0, 0, 0.88);
+            font-size: 13px;
+            margin-inline-end: 5px;
+        }
+    }
+}
+
+.collapse-content-wrapper {
+    max-height: 0;
+    transition: max-height 0.35s ease-out;
+    overflow: hidden;
+
+    .noteColorHoSo {
+        bottom: 0px;
+        // right: 0;
+    }
+}
+
+.collapse-content-wrapper.opened {
+    max-height: 40dvh;
+    transition: max-height 0.25s ease-in;
+    overflow: overlay;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-bottom: 20px;
+
+    .noteColorHoSo {
+        bottom: -20px;
+        right: 0;
+    }
+}
+
+
+@media(max-width: 767px) {
+    .collapse-content-wrapper {
+        margin-bottom: 30px;
+    }
+
+    .noteColorHoSo {
+        bottom: -30px !important;
+        right: 0 !important;
+    }
+
+}
+
+@media(max-width: 200px) {
+    .collapse-content-wrapper {
+        margin-bottom: 50px;
+    }
+
+    .noteColorHoSo {
+        bottom: -50px !important;
+        right: 0 !important;
+    }
+
+}

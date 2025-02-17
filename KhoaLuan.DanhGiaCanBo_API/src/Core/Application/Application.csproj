@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <RootNamespace>TD.DanhGiaCanBo.Application</RootNamespace>
+        <AssemblyName>TD.DanhGiaCanBo.Application</AssemblyName>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Ardalis.Specification" Version="8.0.0" />
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.10.0" />
+        <PackageReference Include="Mapster" Version="7.4.0" />
+        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.32" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.10" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="Select.HtmlToPdf.NetCore" Version="24.1.0" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Domain\Domain.csproj" />
+        <ProjectReference Include="..\Shared\Shared.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Update="Roslynator.Analyzers" Version="4.12.8">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Update="StyleCop.Analyzers" Version="1.1.118">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Auditing\AuditLog\Commands\" />
+      <Folder Include="Business\TrangThaiDanhGiaApp\Dtos\" />
+      <Folder Include="Common\Services\" />
+      <Folder Include="ExportData\Catalog\" />
+    </ItemGroup>
+</Project>

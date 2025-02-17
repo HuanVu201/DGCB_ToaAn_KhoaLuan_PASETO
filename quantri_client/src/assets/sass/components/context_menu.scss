@@ -1,0 +1,12 @@
+.context-menu-wrapper {
+    position: fixed;
+    min-height: 200px;
+    min-width: 200px;
+    z-index: 20;
+    border-radius: 12px !important;
+    overflow: hidden;
+    background-color: beige !important;
+    .ant-menu-light{
+        background-color: beige !important;
+    }
+}

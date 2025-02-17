@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "SSO Callback";
+    Layout = "_Layout-login-dvcqg";
+}
+
+<div class="text-center">
+    <p>@Html.Raw(@ViewBag.Error)</p>
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ('@Html.Raw(@ViewBag.Alert)' != '') {
+                alert('@Html.Raw(@ViewBag.Alert)');
+            }
+            if (@Html.Raw(@ViewBag.TokenUser) != '') {
+                setTimeout(
+                    function () {
+                        debugger;
+                        var objRoot = new Object();
+                        objRoot.auth = '{\"loading\":false,\"data\":@Html.Raw(@ViewBag.TokenUser) }';
+                        objRoot._persist = '{\"version\":-1,\"rehydrated\":true}';
+                        localStorage.setItem("persist:root", JSON.stringify(objRoot))
+                        window.location.href = '@Html.Raw(@ViewBag.UrlRedirect)';
+                    }, 2000);
+            }
+            
+        });
+    </script>
+}

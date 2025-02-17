@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Đăng xuất hệ thống";
+    Layout = "_Layout-logout";
+}
+
+<div class="text-center">
+    <p>@Html.Raw(@ViewBag.Error)</p>
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            setTimeout(
+                function () {
+                    debugger;
+                    localStorage.removeItem("persist:root");
+                    window.location.href = '@Html.Raw(@ViewBag.UrlRedirect)';
+                }, 1000);
+        });   
+    </script>
+}

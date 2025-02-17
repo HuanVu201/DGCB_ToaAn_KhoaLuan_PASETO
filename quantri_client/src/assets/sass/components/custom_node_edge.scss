@@ -1,0 +1,17 @@
+.custom-node-thtt-react-flow{
+    min-height: 120px;
+    min-width: 200px;
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 5px;
+    background: white;
+    position: relative;
+}
+.custom-edge-thtt-react-flow{
+    padding: 2px 8px;
+    background: white;
+    border-radius: 5px;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+}

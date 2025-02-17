@@ -1,0 +1,16 @@
+{
+  "ExtendedData": {
+    "inputs": [
+      "https://ubndluankheadmin.vnpt-invoice.com.vn/PortalService.asmx"
+    ],
+    "collectionTypes": [
+      "System.Array",
+      "System.Collections.Generic.Dictionary`2"
+    ],
+    "namespaceMappings": [
+      "*, VnptPortalService"
+    ],
+    "targetFramework": "net7.0",
+    "typeReuseMode": "None"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "MailSettingsList": {
+    "MailSettings": [
+      {
+        "DisplayName": "Hanh Chinh Cong Thanh Hoa",
+        "From": "",
+        "Host": "",
+        "Password": "", //i
+        "Port": 587,
+        "UserName": ""
+      }
+    ]
+  }
+}

@@ -1,0 +1,281 @@
+.chamDiemModal {
+
+    .ant-modal-body {
+        overflow-y: auto;
+        max-height: 80vh;
+
+        .mauPhieuDanhGia {
+            .tieuChiComponent {
+                position: relative;
+
+                .addGiaiTrinhBtn {
+                    display: inline-block;
+                    background: #34bfa3;
+                    color: #fff;
+                    padding: 5px 10px;
+                    text-align: left !important;
+                    border-radius: 5px;
+                    margin: 5px auto;
+                    cursor: pointer;
+                }
+
+            }
+
+
+
+            .ant-table-wrapper .ant-table.ant-table-bordered>.ant-table-container>.ant-table-content>table>thead>tr>th {
+                border-inline-end: 1px solid rgba(0, 0, 0, 0.2);
+            }
+
+            .ant-table-wrapper .ant-table.ant-table-bordered>.ant-table-container>.ant-table-content>table>tbody>tr>td {
+                border-inline-end: 1px solid rgba(0, 0, 0, 0.2);
+            }
+
+            .ant-input-number {
+                width: 70px;
+                text-align: center;
+            }
+
+            .ant-input {
+                width: 70px;
+                // text-align: center;
+            }
+
+            .ant-input-number-input {
+                text-align: center !important;
+            }
+
+            .ant-select {
+                width: 70px;
+                text-align: center;
+            }
+
+
+            .ant-table-thead {
+
+                .ant-table-cell {
+                    background-color: #fee8ce;
+                }
+            }
+        }
+
+        .ant-radio-button-wrapper {
+            padding-inline: 0;
+        }
+    }
+
+    .ant-modal-footer {
+        position: relative;
+        display: flex;
+
+        .infoChamDiem {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+
+    }
+
+    .diemThuongRow {
+        color: #267cc0 !important;
+    }
+
+    .diemTruRow {
+        color: #b00600 !important;
+    }
+
+    .ant-table-row-indent {
+        display: none !important;
+    }
+
+    .ant-btn {
+        border: none;
+    }
+
+
+    .ant-tabs {
+        .ant-tabs-nav {
+            border-bottom: 1px solid #4da1ef;
+
+            .ant-tabs-nav-wrap {
+
+                // border-bottom: 1px solid #d6d6d6;
+                .ant-tabs-nav-list {
+                    .ant-tabs-tab {
+                        background-color: #79befa;
+
+                        p {
+                            color: #fff;
+                        }
+                    }
+
+                    .ant-tabs-tab-active {
+                        background-color: #5867dd;
+                    }
+                }
+
+            }
+        }
+    }
+
+    textarea {
+        overflow: hidden;
+    }
+
+
+
+    .ant-collapse-header {
+        background-color: #e1f1ff;
+        border-top-left-radius: 5px !important;
+        border-top-right-radius: 5px !important;
+        border: none !important;
+    }
+
+    .optionKhieuNais {
+
+        .ant-radio-button-wrapper {
+
+            .anticon.anticon-check-circle {
+                color: #34bfa3;
+            }
+
+            .anticon.anticon-close-circle {
+                color: tomato;
+            }
+        }
+
+        .ant-radio-button-wrapper-checked {
+            .anticon.anticon-check-circle {
+                color: #fff;
+            }
+
+            .anticon.anticon-close-circle {
+                color: #fff;
+            }
+
+            &:not(.ant-radio-button-wrapper-disabled)::before {
+                background-color: #fff;
+            }
+        }
+    }
+
+}
+
+.ChamDiemModalHandler {
+    .ant-btn {
+        border: 1px solid;
+    }
+}
+
+.DuyetChamDiemButton {
+    border: 1px solid #34bfa3;
+    color: #34bfa3 !important;
+    border-radius: 30px;
+
+    &:hover {
+        background-color: rgba(52, 191, 163, 0.8) !important;
+        color: #fff !important;
+        border: 1px solid rgba(52, 191, 163, 0.8) !important;
+    }
+
+}
+
+.XemDanhGiaButton {
+    border: 1px solid #0d6efd;
+    color: #0d6efd !important;
+    border-radius: 30px;
+
+    &:hover {
+        background-color: rgba(13, 110, 253, 0.8) !important;
+        color: #fff !important;
+        border: 1px solid rgba(13, 110, 253, 0.8) !important;
+    }
+
+}
+
+.XuatDanhGiaButton {
+    border: 1px solid #0d6efd;
+    color: #0d6efd !important;
+    border-radius: 30px;
+
+    &:hover {
+        background-color: rgba(13, 110, 253, 0.8) !important;
+        color: #fff !important;
+        border: 1px solid rgba(13, 110, 253, 0.8) !important;
+
+        .antico.anticon-file-add {
+            color: #fff;
+        }
+    }
+
+}
+
+.downloadExcelButton {
+    background-color: #288288;
+    color: #fff;
+    border: none;
+
+    &:hover {
+        background-color: rgba(40, 130, 136, 0.8) !important;
+        color: #fff !important;
+    }
+
+}
+
+.XoaChamDiemButton {
+
+    color: #ff6347;
+    border: 1px solid #ff6347;
+    border-radius: 30px;
+
+    .anticon.anticon-delete {
+        color: #ff6347;
+    }
+
+    &:hover {
+        background-color: rgba(255, 99, 71, 0.8) !important;
+        border: 1px solid rgba(255, 99, 71, 0.8) !important;
+        color: #fff !important;
+
+        .anticon.anticon-delete {
+            color: #fff !important;
+        }
+    }
+
+
+}
+
+.KhoiPhucChamDiemButton {
+    border: 1px solid #ffa500;
+    color: #ffa500;
+    border-radius: 30px;
+
+    .anticon.anticon-undo {
+        color: #ffa500;
+    }
+
+    &:hover {
+        background-color: rgba(255, 165, 0, 0.8) !important;
+        color: #fff !important;
+        border: 1px solid rgba(255, 165, 0, 0.8) !important;
+
+        .anticon.anticon-undo {
+            color: #fff;
+        }
+    }
+
+}
+
+.BtnSearchAdvClass {
+    background-color: #36a3f7;
+    color: #fff;
+    border: none;
+
+    &:hover {
+        background-color: rgba(54, 163, 247, 0.8) !important;
+        color: #fff !important;
+    }
+}

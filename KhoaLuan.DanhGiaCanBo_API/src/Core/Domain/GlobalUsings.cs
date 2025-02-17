@@ -1,0 +1,1 @@
+﻿global using TD.DanhGiaCanBo.Domain.Common.Contracts;

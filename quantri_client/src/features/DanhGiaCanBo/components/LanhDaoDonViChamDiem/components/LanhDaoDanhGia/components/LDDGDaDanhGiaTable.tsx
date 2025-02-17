@@ -1,0 +1,134 @@
+import { AntdButton, AntdSpace, AntdTable } from "@/lib/antd/components";
+
+import { useEffect, useMemo, useState } from "react";
+import { toast } from "react-toastify";
+import { IDanhGiaCanBo, ISearchDanhGiaCanBo } from "@/features/DanhGiaCanBo/components/common/models";
+import { danhGiaCanBoServiceApi } from "@/features/DanhGiaCanBo/components/common/service/DanhGiaService";
+import { Button, Popconfirm, Spin } from "antd";
+import { CheckOutlined, CloseCircleOutlined, DeleteOutlined, DeliveredProcedureOutlined, EditOutlined, EyeOutlined, FileDoneOutlined, LoadingOutlined, RollbackOutlined, UnorderedListOutlined } from "@ant-design/icons";
+import { ButtonActionProvider, useButtonActionContext } from "@/features/DanhGiaCanBo/components/common/contexts/useButtonActionContext";
+import { DanhGiaCommonSearch } from "@/features/DanhGiaCanBo/components/common/DanhGiaCommonSearch";
+import VetXuLyDanhGiaTable from "@/features/DanhGiaCanBo/components/common/VetXuLyModal/VetXuLyDanhGiaTable";
+import ReadOnlyDanhGiaDetailModal from "@/features/DanhGiaCanBo/components/common/components/ReadOnLyDanhGia/components/ReadOnLyDanhGiaDetailModal";
+import { LanhDaoDanhGiaChamDiemProvider, useLanhDaoDanhGiaChamDiemContext } from "../contexts/useLDDGChamDiemContext";
+import { useLDDGDaDanhGiaColumn } from "../hooks/useLDDGDaDanhGiaColumn";
+import ThuHoiChamDiemModal from "@/features/DanhGiaCanBo/components/common/components/ThuHoiChamDiem/ThuHoiChamDiemModal";
+import LichSuDanhGiaModal from "@/features/DanhGiaCanBo/components/common/components/LichSuDanhGia/LichSuDanhGiaModal";
+import { DanhGiaTableActions } from "@/features/DanhGiaCanBo/components/common/DanhGiaCommon";
+import { useAppSelector } from "@/lib/redux/Hooks";
+import { TableRowSelection } from "antd/es/table/interface";
+import XuatDanhGiaCaNhanModal from "@/features/DanhGiaCanBo/components/common/components/XuatDanhGiaCaNhan/XuatDanhGiaCaNhanModal";
+import { YEAR } from "@/data";
+
+function LanhDaoDanhGiaDaChamDiemTable() {
+    const { parseToken } = useAppSelector((state) => state.auth);
+    const buttonActionContext = useButtonActionContext()
+    const [danhGias, setDanhGias] = useState<IDanhGiaCanBo[]>()
+    const [totalCount, setTotalCount] = useState<number>(0)
+    const searchParamOrigins: ISearchDanhGiaCanBo = {
+        pageNumber: 1, pageSize: 10,
+        filterByUserRole: false,
+        loaiDanhGia: 'Cá nhân',
+        loaiNgay: 'DanhGia',
+        type: 'DanhGia',
+        maDonVi: parseToken?.officeCode,
+        toanBoDonVi: true,
+        thoiGianQuery: YEAR.toString(),
+    }
+
+    const [searchParams, setSearchParams] = useState<ISearchDanhGiaCanBo>({ ...searchParamOrigins })
+    const danhGiaContext = useLanhDaoDanhGiaChamDiemContext()
+
+    const tableActions: DanhGiaTableActions[] = useMemo(() => [
+        {
+            icon: <EyeOutlined title="Xem chi tiết"
+                onClick={() => {
+                    buttonActionContext.setReadOnlyDanhGiaModalVisible(true)
+                }} />,
+            key: 'XemChiTietDanhGia'
+        },
+        {
+            icon: <UnorderedListOutlined title="Xem vết xử lý"
+                onClick={() => {
+                    buttonActionContext.setVetXuLyDanhGiaModalVisible(true)
+                }} />
+            ,
+            key: 'VetXuLy'
+        },
+    ], [buttonActionContext.danhGiaId])
+
+    const columns = useLDDGDaDanhGiaColumn({ pageNumber: searchParams.pageNumber ?? 1, pageSize: searchParams.pageSize ?? 10, tableActions })
+
+    useEffect(() => {
+        (async () => {
+            if (!searchParams.maDonVi) {
+                toast.error("Không có thông tin đơn vị người dùng hiện tại")
+                return
+            }
+            buttonActionContext.setLoading(true)
+            const res = await danhGiaCanBoServiceApi.Search(searchParams)
+            if (res.status == 200) {
+                setDanhGias(res.data.data)
+                setTotalCount(res.data.totalCount)
+            } else {
+                toast.error("Lỗi lấy thông tin đánh giá")
+            }
+            buttonActionContext.setLoading(false)
+        })()
+    }, [searchParams, danhGiaContext.reload])
+
+    const extraButtons = [
+
+        <AntdButton className="XuatDanhGiaButton" icon={<FileDoneOutlined />} onClick={() => {
+            if (buttonActionContext.selectedDanhGias && buttonActionContext.selectedDanhGias.length == 1) {
+                buttonActionContext.setInDanhGiaCaNhanModalVisible(true)
+            } else {
+                toast.info("Chọn đánh giá cần xuất thông tin")
+            }
+        }}>Xuất phiếu đánh giá</AntdButton>,
+    ];
+
+
+    const rowSelection: TableRowSelection<IDanhGiaCanBo> = {
+        onChange: (selectedRowKeys: React.Key[]) => {
+            buttonActionContext.setSelectedDanhGias(selectedRowKeys);
+        },
+        selectedRowKeys: buttonActionContext.selectedDanhGias,
+    };
+
+    return (<div className="LanhDaoChoChamDiemSwapper">
+        <Spin spinning={buttonActionContext.loading}
+            indicator={<LoadingOutlined spin />}
+        >
+            <AntdSpace direction="vertical" style={{ width: "100%" }}>
+                <DanhGiaCommonSearch searchParams={searchParams} setSearchParams={setSearchParams} searchParamOrigins={searchParamOrigins} extraButtons={extraButtons} typeNgaySearch="đánh giá" setLoading={buttonActionContext.setLoading} />
+                <AntdTable
+                    columns={columns}
+                    dataSource={danhGias}
+                    pagination={{
+                        total: totalCount
+                    }}
+                    rowSelection={{ type: 'radio', ...rowSelection }}
+                    searchParams={searchParams}
+                    setSearchParams={setSearchParams}
+                    onSearch={() => { }}
+                />
+            </AntdSpace>
+            <VetXuLyDanhGiaTable />
+            <ThuHoiChamDiemModal reload={danhGiaContext.reload} setReload={danhGiaContext.setReload} />
+            <ReadOnlyDanhGiaDetailModal />
+            <XuatDanhGiaCaNhanModal />
+        </Spin>
+    </div>);
+}
+
+const LanhDaoDanhGiaDaChamDiemTableSwapper = () => (
+    <ButtonActionProvider>
+        <LanhDaoDanhGiaChamDiemProvider>
+            <LanhDaoDanhGiaDaChamDiemTable />
+        </LanhDaoDanhGiaChamDiemProvider>
+    </ButtonActionProvider>
+);
+
+
+export default LanhDaoDanhGiaDaChamDiemTableSwapper;

@@ -1,0 +1,23 @@
+﻿using Ardalis.Specification;
+using TD.DanhGiaCanBo.Application.Common.Specification;
+using TD.DanhGiaCanBo.Application.Identity.Users;
+
+namespace TD.DanhGiaCanBo.Infrastructure.Identity;
+
+public class UserListPaginationFilterSpec : EntitiesByPaginationFilterSpec<ApplicationUser>
+{
+    public UserListPaginationFilterSpec(UserListFilter request)
+        : base(request)
+    {
+        Query
+        .Where(p => p.UserName.Contains(request.UserName), !string.IsNullOrEmpty(request.UserName))
+        .Where(p => p.FullName.Contains(request.FullName), !string.IsNullOrEmpty(request.FullName))
+        .Where(p => p.IsActive == request.IsActive, request.IsActive.HasValue)
+        .Where(x => x.DeletedOn == null);
+    }
+
+    public static DateTime GetDateZeroTime(DateTime date)
+    {
+        return new DateTime(date.Year, date.Month, date.Day, 0, 0, 0);
+    }
+}

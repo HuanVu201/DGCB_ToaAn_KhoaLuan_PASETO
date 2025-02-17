@@ -1,0 +1,16 @@
+{
+  "ExtendedData": {
+    "inputs": [
+      "https://ubndluankheadmin.vnpt-invoice.com.vn/PublishService.asmx"
+    ],
+    "collectionTypes": [
+      "System.Array",
+      "System.Collections.Generic.Dictionary`2"
+    ],
+    "namespaceMappings": [
+      "*, VnptPublishService"
+    ],
+    "targetFramework": "net7.0",
+    "typeReuseMode": "None"
+  }
+}

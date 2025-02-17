@@ -1,0 +1,17 @@
+{
+  "LDAPSettings": {
+    "Enable": true,
+    "Port": 389,
+    "Zone": "com",
+    "Domain": "",
+    "LDAPserver": "",
+    "LDAPQueryBase": "",
+    "Subdomain": "ad",
+    "Crew": "crew",
+    "Managers": "",
+    "Username": "",
+    "Password": "",
+    "PassNeverExpires": true,
+    "ListUserCanNotChangePass": ""
+  }
+}

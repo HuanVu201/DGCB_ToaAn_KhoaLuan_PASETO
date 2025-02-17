@@ -1,0 +1,15 @@
+{
+  "CommonSettings": {
+    "XuLyHoSo": {
+      "MaTTHCKhongThuPhi": [ "1.002835.000.00.00.H56", "1.002809.000.00.00.H56" ]
+    },
+    "DefaultPassword": "",
+    "DeleteSecurityCode": "",
+    "QuerySQL": {
+      "QuerySecurityCode": "TD@123456",
+      "unExcutableKeys": [ "drop", "truncate" ],
+      "unExcutableTables": [ "identity.users" ]
+    },
+    "ProvinceCode": "38"
+  }
+}

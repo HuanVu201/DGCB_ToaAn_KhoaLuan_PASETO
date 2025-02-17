@@ -1,0 +1,143 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+}
+
+.wrapper-spinner {
+    background: rgb(255, 254, 243);
+    background: radial-gradient(circle, rgb(255, 254, 243) 0%, rgb(218, 237, 255) 100%);
+    min-height: 100vh;
+    min-width: 100vw;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center !important;
+    -ms-flex-align: center !important;
+    align-items: center !important;
+}
+
+    .wrapper-spinner > .col {
+        -ms-flex-preferred-size: 0;
+        flex-basis: 0;
+        -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        max-width: 100%;
+    }
+
+.spinner-text {
+    margin: 20px 0 0;
+    text-align: center;
+    color: #1b7dc7;
+    background: -webkit-linear-gradient(0deg,#330867 0%, #30CFD0 100%);
+    background: linear-gradient(to right, #330867 0%, #30CFD0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.5em;
+    font-family: sans-serif, arial, tahoma;
+    font-weight: 600;
+}
+
+.m-spinner {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin: 0 auto;
+    border-radius: 100%;
+    opacity: 0;
+    -webkit-animation: m-spinner-scaleout 2s infinite ease-in-out;
+    animation: m-spinner-scaleout 2s infinite ease-in-out;
+}
+
+    .m-spinner:nth-child(1) {
+        animation-delay: 0s
+    }
+
+    .m-spinner:nth-child(2) {
+        animation-delay: 0.2s
+    }
+
+    .m-spinner:nth-child(3) {
+        animation-delay: 0.4s
+    }
+
+    .m-spinner:nth-child(4) {
+        animation-delay: 0.6s
+    }
+
+    .m-spinner:nth-child(5) {
+        animation-delay: 0.8s
+    }
+
+    .m-spinner:nth-child(6) {
+        animation-delay: 1s
+    }
+
+    .m-spinner.m-spinner--lg {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .m-spinner.m-spinner--brand {
+        background-color: #716aca;
+    }
+
+    .m-spinner.m-spinner--primary {
+        background-color: #5867dd
+    }
+
+    .m-spinner.m-spinner--success {
+        background-color: #34bfa3
+    }
+
+    .m-spinner.m-spinner--info {
+        background-color: #36a3f7
+    }
+
+    .m-spinner.m-spinner--warning {
+        background-color: #ffb822
+    }
+
+    .m-spinner.m-spinner--danger {
+        background-color: #f4516c
+    }
+
+@-webkit-keyframes m-spinner-scaleout {
+    0% {
+        opacity: .3;
+        -webkit-transform: scale(0);
+        transform: scale(0)
+    }
+
+    50% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1)
+    }
+
+    100% {
+        opacity: .3;
+        -webkit-transform: scale(0);
+        transform: scale(0)
+    }
+}
+
+@keyframes m-spinner-scaleout {
+    0% {
+        opacity: .3;
+        -webkit-transform: scale(0);
+        transform: scale(0)
+    }
+
+    50% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1)
+    }
+
+    100% {
+        opacity: .3;
+        -webkit-transform: scale(0);
+        transform: scale(0)
+    }
+}

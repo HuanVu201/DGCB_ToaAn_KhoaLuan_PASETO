@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng nhập dịch vụ công</title>
+    <link rel="stylesheet" href="~/css/login-mcqg.css" />
+</head>
+<body>
+    <div class="wrapper-spinner">
+        <div class="col">
+            <div class="m-loader m-loader--warning"></div>
+            <div style="text-align: center">
+                <div class="m-spinner m-spinner--brand m-spinner--lg"></div>
+                <div class="m-spinner m-spinner--primary m-spinner--lg"></div>
+                <div class="m-spinner m-spinner--success m-spinner--lg"></div>
+                <div class="m-spinner m-spinner--info m-spinner--lg"></div>
+                <div class="m-spinner m-spinner--warning m-spinner--lg"></div>
+                <div class="m-spinner m-spinner--danger m-spinner--lg"></div>
+            </div>
+            <h4 class="spinner-text">ĐANG THỰC HIỆN ĐĂNG NHẬP QUA<br />HỆ THỐNG ĐĂNG NHẬP MỘT LẦN</h4>
+        </div>
+    </div>
+    @RenderBody()
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

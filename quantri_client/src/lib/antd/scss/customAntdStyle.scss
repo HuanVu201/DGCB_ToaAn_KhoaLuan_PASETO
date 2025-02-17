@@ -1,0 +1,84 @@
+body {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+}
+p{
+    margin-bottom: 0
+}
+ul, li {
+    list-style: none;
+}
+.ant-form-item.override-form-vertial-layout-with-horizontal{
+    .ant-form-item-row{
+        flex-direction: row
+    }
+}
+
+.ant-input-group-addon {
+    background-color: #1677ff !important;
+    color: #fff !important;
+}
+.ant-input[disabled], 
+.ant-select-disabled .ant-select-selection-item{
+    color: #000 !important;
+}
+
+.suspense-spin{
+    position: fixed !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    inset: 0 0 0 0;
+    z-index: 9999;
+    max-height: 100% !important;
+    pointer-events: none;
+    
+}
+.page-break-before {
+    page-break-before: always;
+}
+.page-break-after {
+    page-break-after: always;
+}
+.page-break-avoid {
+    page-break-inside: avoid;
+}
+.grecaptcha-badge { 
+    visibility: hidden !important;
+}
+.ant-steps .ant-steps-item-finish>.ant-steps-item-container>.ant-steps-item-content>.ant-steps-item-title::after{
+    background: #f0ad4e !important;
+}
+.ant-affix {
+    z-index: 20 !important;
+}
+.ant-select-arrow{
+    color: #000 !important;
+}
+.ant-select-item-option-content {
+    white-space: break-spaces !important;
+    word-break: break-word !important;
+}
+.ant-tag{
+    font-size: 0.938rem !important;
+    line-height: 1.625rem !important;
+}
+
+.main-layout_Navbar .ant-menu-title-content{
+    color : #fff !important
+}
+.nhac_viec_dvc_dropdown {
+    max-height: 250px;
+    overflow: auto;
+    .ant-dropdown-menu {
+        max-height: 250px;
+        overflow: auto;
+    }
+}
+
+// @import url("../components/Layout/layout.scss");
+// @import url("../components/modal/modal.scss");
+@import "../components/modal/modal.scss";
+@import "../components/Layout/layout.scss";

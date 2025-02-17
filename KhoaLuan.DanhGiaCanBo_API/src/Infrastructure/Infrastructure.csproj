@@ -1,0 +1,124 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <RootNamespace>TD.DanhGiaCanBo.Infrastructure</RootNamespace>
+        <AssemblyName>TD.DanhGiaCanBo.Infrastructure</AssemblyName>
+    </PropertyGroup>
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Ardalis.Specification.EntityFrameworkCore" Version="8.0.0" />
+        <PackageReference Include="Asp.Versioning.Mvc" Version="7.1.0" />
+        <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="7.1.0" />
+        <PackageReference Include="AWS.Logger.SeriLog" Version="3.3.0" />
+        <PackageReference Include="Azure.Identity" Version="1.13.0" />
+        <PackageReference Include="ClosedXML" Version="0.102.1" />
+        <PackageReference Include="Dapper" Version="2.1.21" />
+        <PackageReference Include="Finbuckle.MultiTenant.AspNetCore" Version="6.12.0" />
+        <PackageReference Include="Finbuckle.MultiTenant.EntityFrameworkCore" Version="6.12.0" />
+        <PackageReference Include="FirebaseAdmin" Version="2.4.0" />
+        <PackageReference Include="Hangfire" Version="1.8.6" />
+        <PackageReference Include="Hangfire.Console" Version="1.4.2" />
+        <PackageReference Include="Hangfire.Console.Extensions" Version="1.2.0" />
+        <PackageReference Include="Hangfire.MySqlStorage" Version="2.0.3" />
+        <PackageReference Include="Hangfire.PostgreSql" Version="1.20.4" />
+        <PackageReference Include="Hangfire.SQLite" Version="1.4.2" />
+        <PackageReference Include="iTextSharp" Version="5.5.13.4" />
+        <PackageReference Include="MailKit" Version="4.3.0" />
+        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.6" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
+        <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.5" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.6" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+
+        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Identity.Web" Version="2.15.3" />
+        <PackageReference Include="MimeKit" Version="4.7.1" />
+        <PackageReference Include="Minio" Version="6.0.1" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0-rc.2" />
+        <PackageReference Include="NSwag.AspNetCore" Version="14.0.0-preview009" />
+        <PackageReference Include="RazorEngineCore" Version="2022.8.1" />
+        <PackageReference Include="RestSharp" Version="112.1.0" />
+        <PackageReference Include="Syncfusion.DocIO.Net.Core" Version="26.2.10" />
+        <PackageReference Include="Syncfusion.DocIORenderer.Net.Core" Version="26.2.10" />
+        <PackageReference Include="Syncfusion.Licensing" Version="26.2.10" />
+        <PackageReference Include="Syncfusion.XlsIO.Net.Core" Version="26.2.10" />
+        <PackageReference Include="System.DirectoryServices.AccountManagement" Version="8.0.0" />
+        <PackageReference Include="System.DirectoryServices.Protocols" Version="8.0.0" />
+        <PackageReference Include="System.ServiceModel.Duplex" Version="4.10.*" />
+        <PackageReference Include="System.ServiceModel.Federation" Version="4.10.*" />
+        <PackageReference Include="System.ServiceModel.Http" Version="4.10.*" />
+        <PackageReference Include="System.ServiceModel.NetTcp" Version="4.10.*" />
+        <PackageReference Include="System.ServiceModel.Security" Version="4.10.*" />
+        <PackageReference Include="Tandan.OpenReport.Core" Version="3.0.0" />
+        <PackageReference Include="ZymLabs.NSwag.FluentValidation.AspNetCore" Version="0.6.2" />
+        <PackageReference Include="OrchardCore.Localization.Core" Version="1.7.2" />
+        <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
+        <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.0-beta.1" />
+        <PackageReference Include="Serilog.Enrichers.Process" Version="2.0.2" />
+        <PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
+        <PackageReference Include="Serilog.Expressions" Version="4.0.0" />
+        <PackageReference Include="Serilog.Enrichers.Environment" Version="2.3.0" />
+        <PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
+        <PackageReference Include="Serilog.Formatting.Compact" Version="2.0.0" />
+        <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.0" />
+        <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="5.0.0" />
+        <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+        <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="6.3.0" />
+        <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
+        <PackageReference Include="Serilog.Sinks.Seq" Version="6.0.0" />
+        <PackageReference Include="System.Linq.Dynamic.Core" Version="1.3.5" />
+        <PackageReference Include="Figgle" Version="0.5.1" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Core\Application\Application.csproj" />
+        <ProjectReference Include="..\Core\Domain\Domain.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <Reference Include="Syncfusion.Compression.Portable">
+        <HintPath>C:\Users\nghi1\Downloads\Tandan.OpenReport\Syncfusion.Compression.Portable.dll</HintPath>
+      </Reference>
+      <Reference Include="Syncfusion.DocIO.Portable">
+        <HintPath>C:\Users\nghi1\Downloads\Tandan.OpenReport\Syncfusion.DocIO.Portable.dll</HintPath>
+      </Reference>
+      <Reference Include="Syncfusion.Licensing">
+        <HintPath>C:\Users\nghi1\Downloads\Tandan.OpenReport\Syncfusion.Licensing.dll</HintPath>
+      </Reference>
+      <Reference Include="Syncfusion.OfficeChart.Portable">
+        <HintPath>C:\Users\nghi1\Downloads\Tandan.OpenReport\Syncfusion.OfficeChart.Portable.dll</HintPath>
+      </Reference>
+      <Reference Include="Syncfusion.XlsIO.Portable">
+        <HintPath>C:\Users\nghi1\Downloads\Tandan.OpenReport\Syncfusion.XlsIO.Portable.dll</HintPath>
+      </Reference>
+      <Reference Include="Tandan.OpenReport">
+        <HintPath>C:\Users\nghi1\Downloads\Report\src\Tandan.OpenReport\bin\Debug\netstandard2.0\Tandan.OpenReport.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="Catalog\*.json" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Update="Roslynator.Analyzers" Version="4.12.8">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Update="StyleCop.Analyzers" Version="1.1.118">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="ExportData\Catalog\" />
+    </ItemGroup>
+</Project>

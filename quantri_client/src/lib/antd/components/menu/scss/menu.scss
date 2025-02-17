@@ -1,0 +1,8 @@
+.main-layout {
+    .ant-menu-item.ant-menu-item-only-child{
+        height: auto !important;
+    }
+    .ant-menu .ant-menu-item{
+        white-space: unset !important;
+    }
+}

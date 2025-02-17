@@ -1,0 +1,29 @@
+.modal-wrapper{
+    position: static;
+    height: auto;
+    top: auto;
+    bottom: auto;
+}
+.modal-wrapper.fullsize{
+    overflow-x: hidden;
+    .ant-modal, .ant-modal-content {
+        height: 100dvh;
+        width: 100dvw;
+        margin: 0;
+        top: 0;
+        border-radius: 0;
+    }
+}
+
+.modal-wrapper.fullsizescrollable{
+    overflow-x: hidden;
+    .ant-modal, .ant-modal-content {
+        height: 100%;
+        width: 100dvw;
+        margin: 0;
+        top: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+}
+

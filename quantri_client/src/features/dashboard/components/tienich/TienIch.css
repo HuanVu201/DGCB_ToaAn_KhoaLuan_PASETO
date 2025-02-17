@@ -1,0 +1,23 @@
+.custom-menu .ant-menu-item {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.custom-menu .ant-menu-item-active {
+    color: blue;
+}
+
+.back-top-btn {
+    background-color: rgba(121, 190, 247, 0.3);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.back-top-btn:hover {
+    background-color: #5dadf3;
+}

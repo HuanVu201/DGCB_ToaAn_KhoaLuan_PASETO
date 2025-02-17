@@ -1,0 +1,11 @@
+quantri_client/dist
+quantri_client/package-lock.json
+quantri_client/node_modules
+quantri_client/*.rar
+node_modules
+.vs
+
+/TD.DichVuCongApi/src/Host/.config/dotnet-tools.json
+/.vs/TD_DichVuCong/v17/.wsuo
+/.vs/VSWorkspaceState.json
+/quantri_client/yarn.lock
