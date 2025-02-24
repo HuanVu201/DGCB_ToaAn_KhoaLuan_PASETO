@@ -13,11 +13,8 @@ export const GetToken = createAsyncThunk
             const res = await authService.GetToken(params)
             if (res.status === 200 && res.data) { // fake api response with status 201
                 thunkApi.dispatch(SearchPublicConfig())
-                thunkApi.dispatch(SearchPublicConfig())
             }
-            const userData: IParseUserToken = parseJwt(res.data.token)
-            thunkApi.dispatch(GetUser({ token: res.data.token }))
-            // thunkApi.dispatch(setUserData(userData))
+         
             thunkApi.dispatch(togglerLoginModalVisible(false))
             return res.data;
         } catch (error) {

@@ -18,7 +18,7 @@ import LichSuDanhGiaModal from "@/features/DanhGiaCanBo/components/common/compon
 import { DanhGiaTableActions } from "@/features/DanhGiaCanBo/components/common/DanhGiaCommon";
 import { ThamMuuDanhGiaDonViPhongBanProvider, useThamMuuDanhGiaDonViPhongBanContext } from "../../contexts/useThamMuuDanhGiaDonViPhongBanContext";
 import { useTableThamMuuDanhGiaDonViPhongBanColumn } from "../../hooks/useTableThamMuuDanhGiaDonViPhongBanColumn";
-import ThamMuuDanhGiaDonViPhongBanDetailModal from "./ThamMuuDanhGiaDonViPhongBanDetailModal/ThamMuuDanhGiaDonViPhongBanDetailModal";
+import ThamMuuDanhGiaDonViPhongBanDetailModal from "./ThamMuuDanhGiaDonViPhongBanDetailModal/ThamMuuDGDVPBDetailModal";
 import { danhGiaDonViServiceApi } from "../../services/DanhGiaDonViService";
 import ReadOnLyDanhGiaDonViPhongBanDetailModal from "../ReadonlyDanhGiaDonViPhongBan/ReadOnLyDanhGiaDonViPhongBanDetailModal";
 import { useSearchParams } from "react-router-dom";

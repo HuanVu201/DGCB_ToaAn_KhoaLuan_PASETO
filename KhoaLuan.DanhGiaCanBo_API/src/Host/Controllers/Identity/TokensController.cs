@@ -8,20 +8,22 @@ namespace TD.DanhGiaCanBo.Host.Controllers.Identity;
 public sealed class TokensController : VersionNeutralApiController
 {
     private readonly ITokenService _tokenService;
+    private readonly IPasetoTokenService _pasetoTokenService;
     private readonly IConfiguration _configuration;
     private readonly IMemoryCache _memoryCache;
-    public TokensController(ITokenService tokenService, IConfiguration configuration, IMemoryCache memoryCache)
+    public TokensController(ITokenService tokenService, IConfiguration configuration, IMemoryCache memoryCache, IPasetoTokenService pasetoTokenService)
     {
         _tokenService = tokenService;
         _configuration = configuration;
         _memoryCache = memoryCache;
+        _pasetoTokenService = pasetoTokenService;
     }
 
     [HttpPost]
     [AllowAnonymous]
     [TenantIdHeader]
     [OpenApiOperation("Request an access token using credentials.", "")]
-    public Task<TokenResponse> GetTokenAsync(TokenRequest request, CancellationToken cancellationToken)
+    public Task<TokenResponse> GetTokenAsync(PasetoTokenRequest request, CancellationToken cancellationToken)
     {
         //string? securityCode = _configuration.GetValue<string>("SecurityCode");
         //if (!string.IsNullOrEmpty(securityCode) && securityCode != request.SecurityCode)
@@ -38,7 +40,7 @@ public sealed class TokensController : VersionNeutralApiController
         //    throw new UnauthorizedException("Authentication Failed. Max Invalid Password Attempts .");
         //}
 
-        return _tokenService.GetTokenAsync(request, GetIpAddress()!, cancellationToken, GetDevice());
+        return _pasetoTokenService.GetTokenAsync(request, GetIpAddress()!, cancellationToken, GetDevice());
     }
 
     [HttpPost("ldaplogin")]
@@ -66,7 +68,7 @@ public sealed class TokensController : VersionNeutralApiController
     [ApiConventionMethod(typeof(TDApiConventions), nameof(TDApiConventions.Search))]
     public Task<TokenResponse> RefreshAsync(RefreshTokenRequest request)
     {
-        return _tokenService.RefreshTokenAsync(request, GetIpAddress()!);
+        return _pasetoTokenService.RefreshTokenAsync(request, GetIpAddress()!);
     }
 
     [HttpPost("ChangeUserGroup")]

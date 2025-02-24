@@ -27,26 +27,29 @@ const ThongTinNguoiDung = () => {
   const [form] = Form.useForm<User>();
   const [loading, setLoading] = useState(false)
   const mainContext = useMainContext();
-  const kiemNhiem : boolean = Form.useWatch("kiemNhiem", form)
+  const kiemNhiem: boolean = Form.useWatch("kiemNhiem", form)
   const [mauPhieuDanhGias, setMauPhieuDanhGias] = useState<IDanhMuc_PhieuDanhGia[]>([])
   const [filterMauPhieuDanhGias, setFilterMauPhieuDanhGias] = useState<IDanhMuc_PhieuDanhGia[]>([])
   const [boTieuChuans, setBoTieuChuans] = useState<IDanhMuc_BoTieuChuan[]>([])
   const boTieuChiKey = useId()
 
 
+
+
   useEffect(() => {
-    if (auth !== undefined) {
-      (async () => {
+    (async () => {
+      toast('@@@')
+      if (auth !== undefined) {
         const userRes = await dispatch(GetUser({ token: auth.token })).unwrap()
-        if(userRes){
+        if (userRes) {
           const res = await danhMuc_ChucDanhApi.MauPhieuDanhGias(userRes.chucDanh.id)
-          const resBoTieuChuan = await danhMuc_BoTieuChuanApi.Search({pageNumber:1, pageSize:500})
+          const resBoTieuChuan = await danhMuc_BoTieuChuanApi.Search({ pageNumber: 1, pageSize: 500 })
           setMauPhieuDanhGias(res.data.data || [])
           setBoTieuChuans(resBoTieuChuan.data.data || [])
           setFilterMauPhieuDanhGias(res.data.data || [])
         }
-      })()
-    }
+      }
+    })()
   }, [auth]);
 
   useEffect(() => {
@@ -55,20 +58,20 @@ const ThongTinNguoiDung = () => {
   const onFinish: FormProps["onFinish"] = async (values) => {
     try {
       deleteObjectKeyValues(values, ["userName"])
-      const maPhieuDanhGia : string[] | undefined = values.maPhieuDanhGia
-      const res = await userService.UpdateCurrentUserGroup({...user, ...values, maPhieuDanhGia: maPhieuDanhGia?.toString(), chucDanhId: user?.chucDanh?.id, chucVuId: user?.chucVu?.id})
-      if(res.data.succeeded){
+      const maPhieuDanhGia: string[] | undefined = values.maPhieuDanhGia
+      const res = await userService.UpdateCurrentUserGroup({ ...user, ...values, maPhieuDanhGia: maPhieuDanhGia?.toString(), chucDanhId: user?.chucDanh?.id, chucVuId: user?.chucVu?.id })
+      if (res.data.succeeded) {
         toast.success("Cập nhật thành công")
         mainContext.setUserInfoModalVisible(false);
       }
-    } catch(err){
+    } catch (err) {
       console.log(err);
       toast.error("Cập nhật thất bại")
     }
   }
 
   const onChange: RadioProps["onChange"] = (e) => {
-    if(e.target.value === ALLBOTIEUCHIKEY){
+    if (e.target.value === ALLBOTIEUCHIKEY) {
       setFilterMauPhieuDanhGias((curr) => mauPhieuDanhGias)
       return
     }
@@ -76,9 +79,9 @@ const ThongTinNguoiDung = () => {
     setFilterMauPhieuDanhGias((curr) => mauPhieuDanhGias.filter(x => x.maBoTieuChi?.toLowerCase() == selectedBoTieuChuan?.maBoTieuChi?.toLowerCase()))
   }
 
-  const dropdownRender : AntdSelectProps<any>["dropdownRender"] = (origin) => {
+  const dropdownRender: AntdSelectProps<any>["dropdownRender"] = (origin) => {
     return <>
-      <Radio.Group style={{display: "flex", justifyContent:"center"}} onChange={onChange}>
+      <Radio.Group style={{ display: "flex", justifyContent: "center" }} onChange={onChange}>
         <Radio value={ALLBOTIEUCHIKEY} key={boTieuChiKey}>Tất cả bộ tiêu chí</Radio>
         {Object.keys(BoTieuChuanLoaiThoiGian).map((loaiThoiGian, index) => <>
           <Radio value={loaiThoiGian} key={index}>{loaiThoiGian}</Radio>
@@ -118,16 +121,16 @@ const ThongTinNguoiDung = () => {
         {kiemNhiem ? <Form.Item<User> label="Nội dung kiêm nhiệm" name="noiDungKiemNhiem">
           <Input.TextArea />
         </Form.Item> : null}
-        {mauPhieuDanhGias?.length ? 
+        {mauPhieuDanhGias?.length ?
           <Form.Item<User> label="Mẫu phiếu đánh giá chính" name="maPhieuDanhGia">
-            <AntdSelect 
+            <AntdSelect
               dropdownRender={dropdownRender}
-              generateOptions={{model: filterMauPhieuDanhGias, value: "id", label: "ten"}} 
-              allowClear 
-              showSearch 
+              generateOptions={{ model: filterMauPhieuDanhGias, value: "id", label: "ten" }}
+              allowClear
+              showSearch
               filterOption={filterOptions}
               mode="multiple"
-              />
+            />
           </Form.Item> : null}
         <Form.Item wrapperCol={{ offset: 21 }}>
           <Button type="primary" htmlType="submit">

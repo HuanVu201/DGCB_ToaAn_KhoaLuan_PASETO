@@ -15,8 +15,8 @@ import { useDanhGiaXepLoaiDonViPhongBanContext } from "../../../contexts/useDanh
 import PhuLucDanhGiaDonViPhongBanComponent from "../../TaoDanhGiaDonViPhongBan/TaoDanhGiaDonViPhongBanDetailModal/PhuLucDanhGiaDonViPBComponent";
 import HeaderDanhGiaDonViPhongBanDetailModal from "../../TaoDanhGiaDonViPhongBan/TaoDanhGiaDonViPhongBanDetailModal/HeaderDanhGiaDonViPBDetailModal";
 import { danhGiaDonViServiceApi } from "../../../services/DanhGiaDonViService";
-import HeaderDanhGiaXepLoaiDonViPhongBanDetailModal from "./HeaderDanhGiaXepLoaiDonViPhongBanDetailModal";
-import PhuLucDanhGiaXepLoaiDonViPhongBanComponent from "./PhuLucDanhGiaXepLoaiDonViPhongBanComponent";
+import HeaderDanhGiaXepLoaiDonViPhongBanDetailModal from "./HeaderDGXLDonViPhongBanDetailModal";
+import PhuLucDanhGiaXepLoaiDonViPhongBanComponent from "./PhuLucDGXLDonViPhongBanComponent";
 
 
 

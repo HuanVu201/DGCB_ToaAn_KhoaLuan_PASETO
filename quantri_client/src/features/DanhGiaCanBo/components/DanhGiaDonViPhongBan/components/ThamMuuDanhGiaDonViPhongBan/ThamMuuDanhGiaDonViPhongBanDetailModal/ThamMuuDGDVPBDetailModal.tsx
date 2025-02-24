@@ -16,8 +16,8 @@ import { IPhuLucItem } from "@/features/DanhGiaCanBo/components/TuChamDiem/ToanB
 import { useAppSelector } from "@/lib/redux/Hooks";
 import LichSuDanhGiaModal from "@/features/DanhGiaCanBo/components/common/components/LichSuDanhGia/LichSuDanhGiaModal";
 import { useThamMuuDanhGiaDonViPhongBanContext } from "../../../contexts/useThamMuuDanhGiaDonViPhongBanContext";
-import PhuLucThamMuuDanhGiaDonViPhongBanComponent from "./PhuLucThamMuuDanhGiaDonViPhongBanComponent";
-import HeaderThamMuuDanhGiaDonViPhongBanDetailModal from "./HeaderThamMuuDanhGiaDonViPhongBanDetailModal";
+import PhuLucThamMuuDanhGiaDonViPhongBanComponent from "./PhuLucThamMuuDGDVPBComponent";
+import HeaderThamMuuDanhGiaDonViPhongBanDetailModal from "./HeaderThamMuuDGDVPBDetailModal";
 import { danhGiaDonViServiceApi } from "../../../services/DanhGiaDonViService";
 
 

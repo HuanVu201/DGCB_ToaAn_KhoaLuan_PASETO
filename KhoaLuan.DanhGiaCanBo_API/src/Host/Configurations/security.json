@@ -7,6 +7,11 @@
       "tokenExpirationInMinutes": 3600,
       "refreshTokenExpirationInDays": 7
     },
+    "PasetoSettings": {
+      "key": "075b1cb2-a5fc-47ec-becd-683f5a540fd8",
+      "tokenExpirationInMinutes": 10,
+      "refreshTokenExpirationInDays": 1
+    },
     "AzureAd": {
       "Instance": "https://login.microsoftonline.com/",
       "Domain": "<Your Domain>.onmicrosoft.com",

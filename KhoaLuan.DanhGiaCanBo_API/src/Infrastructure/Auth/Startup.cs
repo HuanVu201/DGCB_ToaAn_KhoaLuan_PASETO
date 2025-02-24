@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TD.DanhGiaCanBo.Infrastructure.Auth.PASETO;
 
 namespace TD.DanhGiaCanBo.Infrastructure.Auth;
 
@@ -23,7 +24,7 @@ internal static class Startup
         services.Configure<SecuritySettings>(config.GetSection(nameof(SecuritySettings)));
         return config["SecuritySettings:Provider"]!.Equals("AzureAd", StringComparison.OrdinalIgnoreCase)
             ? services.AddAzureAdAuth(config)
-            : services.AddJwtAuth();
+            : services.AddPasetoAuth();
     }
 
     internal static IApplicationBuilder UseCurrentUser(this IApplicationBuilder app) =>
