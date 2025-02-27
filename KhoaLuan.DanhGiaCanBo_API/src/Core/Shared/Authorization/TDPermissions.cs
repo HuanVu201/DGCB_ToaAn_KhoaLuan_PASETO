@@ -45,8 +45,8 @@ public static class TDResource
     public const string UserRoles = nameof(UserRoles);
     public const string Roles = nameof(Roles);
     public const string RoleClaims = nameof(RoleClaims);
-  //public const string NhomQuanTriDonVi = nameof(NhomQuanTriDonVi);
- // public const string NhomQuanTriHeThong = nameof(NhomQuanTriHeThong);
+    //public const string NhomQuanTriDonVi = nameof(NhomQuanTriDonVi);
+    // public const string NhomQuanTriHeThong = nameof(NhomQuanTriHeThong);
     public const string DanhGia = nameof(DanhGia);
     public const string ThongKe = nameof(ThongKe);
 
@@ -163,7 +163,7 @@ public static class TDPermissions
 
 }
 
-public record TDPermission(string Description, string Action, string Resource, bool IsBasic = false,  bool IsQuanTriDonVi = false, bool IsRoot = false, bool IsTruongPhong = false, bool IsChanhToa = false, bool IsThuTruongCQ = false, bool IsPhoThuTruongCQ = false, bool IsChanhAnTANDTC = false, bool IsPhoChanhAnTANDTC = false, bool IsThamPhanTANDTC = false, bool IsTroLyCATANDTC = false, bool IsTongHopTMDG = false,bool ISQuanTriDonVi = false, bool IsThuKyThamPhanTANDTC = false, bool IsThuKyChanhAnTANDTC= false, bool IsThuKyPhoChanhAnTANDTC = false,bool IsQuanTriNghiepVu = false, bool IsCongChuVienChuc = false)
+public record TDPermission(string Description, string Action, string Resource, bool IsBasic = false, bool IsQuanTriDonVi = false, bool IsRoot = false, bool IsTruongPhong = false, bool IsChanhToa = false, bool IsThuTruongCQ = false, bool IsPhoThuTruongCQ = false, bool IsChanhAnTANDTC = false, bool IsPhoChanhAnTANDTC = false, bool IsThamPhanTANDTC = false, bool IsTroLyCATANDTC = false, bool IsTongHopTMDG = false, bool ISQuanTriDonVi = false, bool IsThuKyThamPhanTANDTC = false, bool IsThuKyChanhAnTANDTC = false, bool IsThuKyPhoChanhAnTANDTC = false, bool IsQuanTriNghiepVu = false, bool IsCongChuVienChuc = false)
 {
     public string Name => NameFor(Action, Resource);
     public static string NameFor(string action, string resource) => $"Permissions.{resource}.{action}";

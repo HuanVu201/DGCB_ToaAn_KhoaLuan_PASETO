@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using TD.CitizenAPI.Application.Identity.Users.Password;
+using TD.DanhGiaCanBo.Application.Identity.Tokens;
 using TD.DanhGiaCanBo.Application.Identity.Users.Dtos;
 using TD.DanhGiaCanBo.Application.Identity.Users.Password;
 using TD.DanhGiaCanBo.Application.Identity.Users.UsersQueries;
@@ -48,4 +49,5 @@ public interface IUserService : ITransientService
     Task<Result> AdminResetPasswordWithValidationAsync(PasswordResetOptions options);
     Task<Result> AdminResetPasswordAsync(string request);
     Task<string> DeleteAsync(string id);
+    Task<GuestInfoResponse> GetGuestInfoAsync();
 }

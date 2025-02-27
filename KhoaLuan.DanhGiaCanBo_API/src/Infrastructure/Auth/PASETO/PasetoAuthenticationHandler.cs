@@ -5,6 +5,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using Paseto;
+using Paseto.Builder;
+using Paseto.Cryptography.Key;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using TD.DanhGiaCanBo.Application.Common.Exceptions;
@@ -37,6 +39,66 @@ public class PasetoAuthenticationHandler : AuthenticationHandler<AuthenticationS
         }
 
         string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+        string[] tokenComponents = token.Split('.');
+        if (tokenComponents.Length > 2 && tokenComponents[1].ToLower() == "public")
+        {
+            ProtocolVersion versionRequest = new ProtocolVersion();
+            string tokenVersion = tokenComponents[0].ToLower();
+            if (tokenVersion == "v1")
+                versionRequest = ProtocolVersion.V1;
+            else if (tokenVersion == "v2")
+                versionRequest = ProtocolVersion.V2;
+            else if (tokenVersion == "v3")
+                versionRequest = ProtocolVersion.V3;
+            else if (tokenVersion == "v4")
+                versionRequest = ProtocolVersion.V4;
+
+            byte[] publicKey = _pasetoTokenService.GetAsymmetricPublicDVCKey();
+
+            var valParams = new PasetoTokenValidationParameters
+            {
+                ValidateLifetime = true,
+                ValidateAudience = false,
+                ValidateIssuer = false,
+            };
+
+            PasetoTokenValidationResult resultPublic = new PasetoBuilder().Use(versionRequest, Purpose.Public)
+                            .WithKey(publicKey, Encryption.AsymmetricPublicKey)
+                            .Decode(token, valParams);
+
+            if (resultPublic.IsValid)
+            {
+                ApplicationUser user = new ApplicationUser();
+                string? tenantId = string.Empty;
+                string? ipAddress = string.Empty;
+
+                PasetoPayload payload = resultPublic.Paseto.Payload;
+                object claimsPayload = payload["Claim"];
+                if (string.IsNullOrEmpty(claimsPayload.ToString()))
+                    throw new UnauthorizedException("Invalid Token.");
+
+                JArray claimsArr = JArray.Parse(claimsPayload.ToString() ?? string.Empty);
+                var userIdClaim = claimsArr.FirstOrDefault(claim => claim["Type"].ToString() == "uid");
+                var typeUserClaim = claimsArr.FirstOrDefault(claim => claim["Type"].ToString() == "typeUser");
+
+                if (userIdClaim != null)
+                    user.Id = userIdClaim["Value"].ToString();
+
+                if (typeUserClaim != null)
+                    user.TypeUser = typeUserClaim["Value"].ToString();
+
+                var claims = _pasetoTokenService.GetClaimsFromToken(user, string.Empty, string.Empty);
+                var identity = new ClaimsIdentity(claims, Scheme.Name);
+                var principal = new ClaimsPrincipal(identity);
+                var ticket = new AuthenticationTicket(principal, Scheme.Name);
+
+                return Task.FromResult(AuthenticateResult.Success(ticket));
+                //return Task.FromResult(AuthenticateResult.Success(new AuthenticationTicket(new ClaimsPrincipal(), Scheme.Name)));
+            }
+
+            throw new UnauthorizedException("Authentication Failed.");
+        }
+
 
         string tokenLogout = _memoryCache.Get(token)?.ToString() ?? string.Empty;
         if (!string.IsNullOrEmpty(tokenLogout) && tokenLogout.Contains("Logout"))
@@ -51,7 +113,7 @@ public class PasetoAuthenticationHandler : AuthenticationHandler<AuthenticationS
             string? ipAddress = string.Empty;
 
             PasetoPayload payload = result.Paseto.Payload;
-            object claimsPayload = payload["ClaimOfPaseto"];
+            object claimsPayload = payload["Claim"];
             if (string.IsNullOrEmpty(claimsPayload.ToString()))
                 throw new UnauthorizedException("Invalid Token.");
 

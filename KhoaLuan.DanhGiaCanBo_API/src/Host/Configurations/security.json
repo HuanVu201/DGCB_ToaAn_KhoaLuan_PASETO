@@ -9,8 +9,9 @@
     },
     "PasetoSettings": {
       "key": "075b1cb2-a5fc-47ec-becd-683f5a540fd8",
-      "tokenExpirationInMinutes": 10,
-      "refreshTokenExpirationInDays": 1
+      "tokenExpirationInMinutes": 60,
+      "refreshTokenExpirationInDays": 1,
+      "publicKeyDVC": "UgDOdtFbYjQPbjGUxezPn+oUTeDtY93RadCjrDY11kU="
     },
     "AzureAd": {
       "Instance": "https://login.microsoftonline.com/",

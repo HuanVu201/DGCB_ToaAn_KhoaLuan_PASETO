@@ -38,7 +38,6 @@ const ThongTinNguoiDung = () => {
 
   useEffect(() => {
     (async () => {
-      toast('@@@')
       if (auth !== undefined) {
         const userRes = await dispatch(GetUser({ token: auth.token })).unwrap()
         if (userRes) {

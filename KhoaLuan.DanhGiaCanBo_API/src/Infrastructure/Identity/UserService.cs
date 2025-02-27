@@ -1,4 +1,4 @@
-using Ardalis.Specification;
+﻿using Ardalis.Specification;
 using Ardalis.Specification.EntityFrameworkCore;
 using Finbuckle.MultiTenant;
 using TD.DanhGiaCanBo.Application.Common.Caching;
@@ -35,6 +35,13 @@ using TD.DanhGiaCanBo.Application.Identity.UserGroups;
 using TD.DanhGiaCanBo.Infrastructure.Identity.Entities;
 using TD.DanhGiaCanBo.Application.Identity.UserNhomNguoiDungs;
 using TD.DanhGiaCanBo.Infrastructure.Identity.CustomManager;
+using Newtonsoft.Json;
+using Paseto.Builder;
+using Paseto.Cryptography.Key;
+using Paseto;
+using System.Text;
+using TD.DanhGiaCanBo.Infrastructure.Auth.PASETO;
+using TD.DanhGiaCanBo.Application.Identity.Tokens;
 
 namespace TD.DanhGiaCanBo.Infrastructure.Identity;
 
@@ -187,8 +194,8 @@ internal partial class UserService : IUserService
 
     public async Task<object> GetCurrentUserAsync(CancellationToken cancellationToken)
     {
-        
-        if(_currentUser.GetTypeUser() == ApplicationUser.ApplicationUserType.Admin)
+
+        if (_currentUser.GetTypeUser() == ApplicationUser.ApplicationUserType.Admin)
         {
             var user = await _userManager.Users
                 .AsNoTracking()
@@ -243,5 +250,18 @@ internal partial class UserService : IUserService
         await _userManager.UpdateAsync(user);
 
         await _events.PublishAsync(new ApplicationUserUpdatedEvent(user.Id));
+    }
+
+    public async Task<GuestInfoResponse> GetGuestInfoAsync()
+    {
+        string sqlQueryGuest = @"SELECT Id, TypeUser
+                                FROM [Identity].[Users]
+                                WHERE UserName = 'Guest'";
+        var dataGuest = await _dapperRepository.QueryFirstOrDefaultAsync<ApplicationUser>(sqlQueryGuest);
+
+        if (dataGuest == null)
+            throw new Exception(message: "Không có cấu hình thông tin Guest");
+
+        return new GuestInfoResponse(dataGuest.Id, dataGuest.TypeUser ?? string.Empty);
     }
 }

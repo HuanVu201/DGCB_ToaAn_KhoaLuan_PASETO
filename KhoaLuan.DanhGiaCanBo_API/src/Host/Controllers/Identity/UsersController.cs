@@ -6,6 +6,7 @@ using TD.CitizenAPI.Application.Identity.Users.Password;
 using TD.DanhGiaCanBo.Application.Business.RoleApp.Queries;
 using TD.DanhGiaCanBo.Application.Common.Interfaces;
 using TD.DanhGiaCanBo.Application.Common.Persistence;
+using TD.DanhGiaCanBo.Application.Identity.Tokens;
 using TD.DanhGiaCanBo.Application.Identity.UserGroups;
 using TD.DanhGiaCanBo.Application.Identity.UserGroups.Params;
 using TD.DanhGiaCanBo.Application.Identity.Users;
@@ -39,8 +40,8 @@ public class UsersController : VersionNeutralApiController
     }
 
     [HttpPost("search")]
-   // [MustHavePermission(TDAction.View, TDResource.NhomCanBoMotCua + "," + TDResource.NhomCanBoTTHCC + "," + TDResource.NhomLanhDaoDonVi + "," + TDResource.NhomLanhDaoPhong + "," + TDResource.NhomCanBoXuLyChungThucDienTu + "," + TDResource.NhomChuyenVien + "," + TDResource.NhomQuanTriDonVi + "," + TDResource.NhomVanThuDonVi)]
-    [MustHavePermission(TDAction.View, TDResource.Tenants + ","+ TDResource.NhomQuanTriDonVi)]
+    // [MustHavePermission(TDAction.View, TDResource.NhomCanBoMotCua + "," + TDResource.NhomCanBoTTHCC + "," + TDResource.NhomLanhDaoDonVi + "," + TDResource.NhomLanhDaoPhong + "," + TDResource.NhomCanBoXuLyChungThucDienTu + "," + TDResource.NhomChuyenVien + "," + TDResource.NhomQuanTriDonVi + "," + TDResource.NhomVanThuDonVi)]
+    //[MustHavePermission(TDAction.View, TDResource.Tenants + "," + TDResource.NhomQuanTriDonVi)]
     [OpenApiOperation("Danh sách người dùng.", "")]
     public Task<PaginationResponse<DanhSachUserGroupDto>> SearchAsync(SearchUserGroupRequest request, CancellationToken cancellationToken)
     {
@@ -464,5 +465,13 @@ public class UsersController : VersionNeutralApiController
     public Task<PaginationResponse<DanhSachUserGroupDto>> SearchUserGroup([FromBody] SearchUserGroupNotGroupCodeRequest req, CancellationToken cancellationToken)
     {
         return _userGroupService.SearchUserGroupNotGroupCode(req, cancellationToken);
+    }
+
+    [AllowAnonymous]
+    [HttpGet("GetGuestInfo")]
+    [OpenApiOperation("Get a guest's details", "")]
+    public async Task<GuestInfoResponse> GetGuestInfoAsync()
+    {
+        return await _userService.GetGuestInfoAsync();
     }
 }

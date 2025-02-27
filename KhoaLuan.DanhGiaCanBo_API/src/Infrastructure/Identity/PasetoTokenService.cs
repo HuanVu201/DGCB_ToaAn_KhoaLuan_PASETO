@@ -18,6 +18,15 @@ using System.Security.Cryptography;
 using Newtonsoft.Json.Linq;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Http;
+using TD.DanhGiaCanBo.Application.Common.Persistence;
+using TD.DanhGiaCanBo.Domain.Catalog;
+using System.ServiceModel;
+using System.Threading;
+using TD.DanhGiaCanBo.Application.Catalog.ConfigApp.Queries;
+using TD.DanhGiaCanBo.Application.Common.Models;
+using Paseto.Cryptography.Key;
+using Newtonsoft.Json;
+using Paseto.Protocol;
 
 namespace TD.DanhGiaCanBo.Infrastructure.Identity;
 public class PasetoTokenService : IPasetoTokenService
@@ -30,13 +39,18 @@ public class PasetoTokenService : IPasetoTokenService
     private readonly LDAPSettings _ldapSettings;
     private readonly IServiceLogger _serviceLogger;
     private readonly IMemoryCache _memoryCache;
+    private readonly IReadRepository<Config> _readRepositoryConfig;
+    private static string publicKeyConfig = "asymmetric-public-key";
     public PasetoTokenService(
         UserManager<ApplicationUser> userManager,
         IOptions<PasetoSettings> pasetoSettings,
         IStringLocalizer<PasetoTokenService> localizer,
         TDTenantInfo? currentTenant,
         IOptions<SecuritySettings> securitySettings,
-        IOptions<LDAPSettings> ldapSettings, IServiceLogger serviceLogger, IMemoryCache memoryCache)
+        IOptions<LDAPSettings> ldapSettings,
+        IServiceLogger serviceLogger,
+        IMemoryCache memoryCache,
+        IReadRepository<Config> readRepositoryConfig)
     {
         _userManager = userManager;
         _t = localizer;
@@ -46,6 +60,7 @@ public class PasetoTokenService : IPasetoTokenService
         _ldapSettings = ldapSettings.Value;
         _serviceLogger = serviceLogger;
         _memoryCache = memoryCache;
+        _readRepositoryConfig = readRepositoryConfig;
     }
 
     public async Task<TokenResponse> GetTokenAsync(PasetoTokenRequest request, string ipAddress, CancellationToken cancellationToken, string? device = null)
@@ -145,7 +160,7 @@ public class PasetoTokenService : IPasetoTokenService
     {
         return new PasetoBuilder().Use(ProtocolVersion.V2, Purpose.Local)
                                .WithKey(GetSymmetricKeyAsBytes(), Encryption.SymmetricKey)
-                               .AddClaim("ClaimOfPaseto", GetClaims(user, ipAddress))
+                               .AddClaim("Claim", GetClaims(user, ipAddress))
                                .Expiration(DateTime.Now.AddMinutes(_pasetoSettings.TokenExpirationInMinutes))
                                .TokenIdentifier(user.Id + "_" + user.Email + "_" + DateTime.Now)
                                .AddFooter(DateTime.Now.AddMinutes(_pasetoSettings.TokenExpirationInMinutes).ToString("dd/MM/yyyy HH:mm:ss"))
@@ -161,7 +176,7 @@ public class PasetoTokenService : IPasetoTokenService
             if (result.IsValid)
             {
                 PasetoPayload payload = result.Paseto.Payload;
-                object claimsPayload = payload["ClaimOfPaseto"];
+                object claimsPayload = payload["Claim"];
                 if (string.IsNullOrEmpty(claimsPayload.ToString()))
                     throw new UnauthorizedException(_t["Invalid Email In Token."]);
 
@@ -242,7 +257,7 @@ public class PasetoTokenService : IPasetoTokenService
              new(TDClaims.TypeUser, user.TypeUser ?? string.Empty)
         };
 
-    public IEnumerable<Claim> GetClaimsFromToken(ApplicationUser user, string tenantId, string ipAddress) =>
+    public IEnumerable<Claim> GetClaimsFromToken(ApplicationUser? user, string? tenantId, string? ipAddress) =>
         new List<Claim>
         {
              new(TDClaims.NameIdentifier, user.Id),
@@ -253,4 +268,13 @@ public class PasetoTokenService : IPasetoTokenService
              new(TDClaims.Fullname, user.FullName ?? string.Empty),
              new(TDClaims.TypeUser, user.TypeUser ?? string.Empty)
         };
+
+    public byte[] GetAsymmetricPublicDVCKey()
+    {
+        PasetoAsymmetricPublicKey config;
+        if (string.IsNullOrEmpty(_pasetoSettings.PublicKeyDVC))
+            throw new NotFoundException("Invalid config PublicKeyDVC");
+
+        return Convert.FromBase64String(_pasetoSettings.PublicKeyDVC);
+    }
 }

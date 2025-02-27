@@ -13,6 +13,7 @@ public class PasetoSettings : IValidatableObject
     public int TokenExpirationInMinutes { get; set; }
 
     public int RefreshTokenExpirationInDays { get; set; }
+    public string PublicKeyDVC { get; set; }
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
