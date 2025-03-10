@@ -69,8 +69,6 @@ public class PasetoAuthenticationHandler : AuthenticationHandler<AuthenticationS
             if (resultPublic.IsValid)
             {
                 ApplicationUser user = new ApplicationUser();
-                string? tenantId = string.Empty;
-                string? ipAddress = string.Empty;
 
                 PasetoPayload payload = resultPublic.Paseto.Payload;
                 object claimsPayload = payload["Claim"];

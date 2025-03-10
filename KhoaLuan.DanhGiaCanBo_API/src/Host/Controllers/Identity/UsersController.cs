@@ -40,8 +40,6 @@ public class UsersController : VersionNeutralApiController
     }
 
     [HttpPost("search")]
-    // [MustHavePermission(TDAction.View, TDResource.NhomCanBoMotCua + "," + TDResource.NhomCanBoTTHCC + "," + TDResource.NhomLanhDaoDonVi + "," + TDResource.NhomLanhDaoPhong + "," + TDResource.NhomCanBoXuLyChungThucDienTu + "," + TDResource.NhomChuyenVien + "," + TDResource.NhomQuanTriDonVi + "," + TDResource.NhomVanThuDonVi)]
-    //[MustHavePermission(TDAction.View, TDResource.Tenants + "," + TDResource.NhomQuanTriDonVi)]
     [OpenApiOperation("Danh sách người dùng.", "")]
     public Task<PaginationResponse<DanhSachUserGroupDto>> SearchAsync(SearchUserGroupRequest request, CancellationToken cancellationToken)
     {
