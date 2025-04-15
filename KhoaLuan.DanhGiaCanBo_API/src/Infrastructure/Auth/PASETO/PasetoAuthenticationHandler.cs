@@ -9,14 +9,16 @@ using Paseto.Builder;
 using Paseto.Cryptography.Key;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
+using TD.DanhGiaCanBo.Application.Common.Caching;
 using TD.DanhGiaCanBo.Application.Common.Exceptions;
 using TD.DanhGiaCanBo.Infrastructure.Identity;
+using TD.DanhGiaCanBo.Shared.Authorization;
 
 namespace TD.DanhGiaCanBo.Infrastructure.Auth.PASETO;
 public class PasetoAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
 {
     private readonly PasetoTokenService _pasetoTokenService;
-    private readonly IMemoryCache _memoryCache;
+    private readonly ICacheService _cacheService;
 
     public PasetoAuthenticationHandler(
         IOptionsMonitor<AuthenticationSchemeOptions> options,
@@ -24,18 +26,18 @@ public class PasetoAuthenticationHandler : AuthenticationHandler<AuthenticationS
         UrlEncoder encoder,
         ISystemClock clock,
         PasetoTokenService pasetoTokenService,
-        IMemoryCache memoryCache)
+        ICacheService cacheService)
         : base(options, logger, encoder, clock)
     {
         _pasetoTokenService = pasetoTokenService;
-        _memoryCache = memoryCache;
+        _cacheService = cacheService;
     }
 
-    protected override Task<AuthenticateResult> HandleAuthenticateAsync()
+    protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
         if (!Request.Headers.ContainsKey("Authorization"))
         {
-            return Task.FromResult(AuthenticateResult.Fail("Missing Authorization Header"));
+            return AuthenticateResult.Fail("Missing Authorization Header");
         }
 
         string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
@@ -90,15 +92,13 @@ public class PasetoAuthenticationHandler : AuthenticationHandler<AuthenticationS
                 var principal = new ClaimsPrincipal(identity);
                 var ticket = new AuthenticationTicket(principal, Scheme.Name);
 
-                return Task.FromResult(AuthenticateResult.Success(ticket));
-                //return Task.FromResult(AuthenticateResult.Success(new AuthenticationTicket(new ClaimsPrincipal(), Scheme.Name)));
+                return AuthenticateResult.Success(ticket);
             }
 
             throw new UnauthorizedException("Authentication Failed.");
         }
 
-
-        string tokenLogout = _memoryCache.Get(token)?.ToString() ?? string.Empty;
+        string tokenLogout = _cacheService.Get<string>(token)?.ToString() ?? string.Empty;
         if (!string.IsNullOrEmpty(tokenLogout) && tokenLogout.Contains("Logout"))
             throw new UnauthorizedException("Authentication Failed.");
 
@@ -106,9 +106,7 @@ public class PasetoAuthenticationHandler : AuthenticationHandler<AuthenticationS
 
         if (result.IsValid)
         {
-            ApplicationUser user = new ApplicationUser();
-            string? tenantId = string.Empty;
-            string? ipAddress = string.Empty;
+            string? userId = string.Empty;
 
             PasetoPayload payload = result.Paseto.Payload;
             object claimsPayload = payload["Claim"];
@@ -116,48 +114,29 @@ public class PasetoAuthenticationHandler : AuthenticationHandler<AuthenticationS
                 throw new UnauthorizedException("Invalid Token.");
 
             JArray claimsArr = JArray.Parse(claimsPayload.ToString() ?? string.Empty);
-            var userIdClaim = claimsArr.FirstOrDefault(claim => claim["Type"].ToString() == "uid");
-            var userNameClaim = claimsArr.FirstOrDefault(claim => claim["Type"].ToString() == "sub");
-            var emailClaim = claimsArr.FirstOrDefault(claim => claim["Type"].ToString() == "email");
-            var ipAddressClaim = claimsArr.FirstOrDefault(claim => claim["Type"].ToString() == "ipAddress");
-            var tenantClaim = claimsArr.FirstOrDefault(claim => claim["Type"].ToString() == "tenant");
-            var typeUserClaim = claimsArr.FirstOrDefault(claim => claim["Type"].ToString() == "typeUser");
-            var fullNameClaim = claimsArr.FirstOrDefault(claim => claim["Type"].ToString() == "fullName");
+            var userIdClaim = claimsArr.FirstOrDefault(claim => claim["Type"].ToString() == TDClaims.NameIdentifier);
 
             if (userIdClaim != null)
-                user.Id = userIdClaim["Value"].ToString();
+                userId = userIdClaim["Value"].ToString();
 
-            if (userNameClaim != null)
-                user.UserName = userNameClaim["Value"].ToString();
+            var serializableClaims = _cacheService.Get<List<SerializableClaim>>("UserID_" + userId);
 
-            if (emailClaim != null)
-                user.Email = emailClaim["Value"].ToString();
+            if (serializableClaims == null)
+                throw new UnauthorizedException("Authentication Failed.");
 
-            if (ipAddressClaim != null)
-                ipAddress = ipAddressClaim["Value"].ToString();
-
-            if (tenantClaim != null)
-                tenantId = tenantClaim["Value"].ToString();
-
-            if (typeUserClaim != null)
-                user.TypeUser = typeUserClaim["Value"].ToString();
-
-            if (fullNameClaim != null)
-                user.FullName = fullNameClaim["Value"].ToString();
-
-            var claims = _pasetoTokenService.GetClaimsFromToken(user, tenantId, ipAddress);
+            var claims = serializableClaims.Select(sc => sc.ToClaim());
             var identity = new ClaimsIdentity(claims, Scheme.Name);
             var principal = new ClaimsPrincipal(identity);
             var ticket = new AuthenticationTicket(principal, Scheme.Name);
 
-            return Task.FromResult(AuthenticateResult.Success(ticket));
+            return AuthenticateResult.Success(ticket);
         }
         else
         {
             var endpoint = Context.GetEndpoint();
             if (endpoint?.Metadata.GetMetadata<Microsoft.AspNetCore.Authorization.AllowAnonymousAttribute>() != null)
             {
-                return Task.FromResult(AuthenticateResult.Success(new AuthenticationTicket(new ClaimsPrincipal(), Scheme.Name)));
+                return AuthenticateResult.Success(new AuthenticationTicket(new ClaimsPrincipal(), Scheme.Name));
             }
 
             throw new UnauthorizedException("Authentication Failed.");

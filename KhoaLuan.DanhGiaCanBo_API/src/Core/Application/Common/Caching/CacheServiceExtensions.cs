@@ -61,7 +61,7 @@ public static class CacheServiceExtensions
         }
     }
 
-    public static async Task<string> GetOrSetWithParamsAsync(this ICacheService cache, string key, string? valueInto, TimeSpan? slidingExpiration = null, CancellationToken cancellationToken = default)
+    public static async Task<string> GetOrSetWithKeyValueAsync(this ICacheService cache, string key, string? valueInto, TimeSpan? slidingExpiration = null, CancellationToken cancellationToken = default)
     {
         string keyStr = JsonConvert.SerializeObject(key);
         var reFetch = key.HasPropWithValue("ReFetch");

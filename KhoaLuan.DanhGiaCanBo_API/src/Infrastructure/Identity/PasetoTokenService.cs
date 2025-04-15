@@ -27,6 +27,8 @@ using TD.DanhGiaCanBo.Application.Common.Models;
 using Paseto.Cryptography.Key;
 using Newtonsoft.Json;
 using Paseto.Protocol;
+using TD.DanhGiaCanBo.Application.Common.Caching;
+using TD.DanhGiaCanBo.Application.Common.Interfaces;
 
 namespace TD.DanhGiaCanBo.Infrastructure.Identity;
 public class PasetoTokenService : IPasetoTokenService
@@ -38,9 +40,8 @@ public class PasetoTokenService : IPasetoTokenService
     private readonly TDTenantInfo? _currentTenant;
     private readonly LDAPSettings _ldapSettings;
     private readonly IServiceLogger _serviceLogger;
-    private readonly IMemoryCache _memoryCache;
-    private readonly IReadRepository<Config> _readRepositoryConfig;
-    private static string publicKeyConfig = "asymmetric-public-key";
+    private readonly ICurrentUser _currentUser;
+    private readonly ICacheService _cacheService;
     public PasetoTokenService(
         UserManager<ApplicationUser> userManager,
         IOptions<PasetoSettings> pasetoSettings,
@@ -49,8 +50,8 @@ public class PasetoTokenService : IPasetoTokenService
         IOptions<SecuritySettings> securitySettings,
         IOptions<LDAPSettings> ldapSettings,
         IServiceLogger serviceLogger,
-        IMemoryCache memoryCache,
-        IReadRepository<Config> readRepositoryConfig)
+        ICurrentUser currentUser,
+        ICacheService cacheService)
     {
         _userManager = userManager;
         _t = localizer;
@@ -59,8 +60,8 @@ public class PasetoTokenService : IPasetoTokenService
         _securitySettings = securitySettings.Value;
         _ldapSettings = ldapSettings.Value;
         _serviceLogger = serviceLogger;
-        _memoryCache = memoryCache;
-        _readRepositoryConfig = readRepositoryConfig;
+        _currentUser = currentUser;
+        _cacheService = cacheService;
     }
 
     public async Task<TokenResponse> GetTokenAsync(PasetoTokenRequest request, string ipAddress, CancellationToken cancellationToken, string? device = null)
@@ -78,14 +79,14 @@ public class PasetoTokenService : IPasetoTokenService
 
         if (string.IsNullOrWhiteSpace(_currentTenant?.Id) || user is null || !await _userManager.CheckPasswordAsync(user, request.Password))
         {
-            string? invalidPasswordAttempts = _memoryCache.Get("InvalidPassword_" + request.UserName)?.ToString();
+            int? invalidPasswordAttempts = _cacheService.Get<int>("InvalidPassword_" + request.UserName);
             int attempts = 0;
-            if (!string.IsNullOrEmpty(invalidPasswordAttempts))
+            if (invalidPasswordAttempts.HasValue)
             {
-                attempts = int.Parse(invalidPasswordAttempts);
+                attempts = invalidPasswordAttempts ?? 0;
             }
 
-            _memoryCache.Set("InvalidPassword_" + request.UserName, attempts + 1, TimeSpan.FromMinutes(10));
+            _cacheService.Set("InvalidPassword_" + request.UserName, attempts + 1, TimeSpan.FromMinutes(10));
             throw new BadHttpRequestException(_t["Authentication Failed."]);
         }
 
@@ -138,7 +139,9 @@ public class PasetoTokenService : IPasetoTokenService
         string token = GeneratePasetoToken(user, ipAddress);
 
         user.RefreshToken = GenerateRefreshToken();
-        user.RefreshTokenExpiryTime = DateTime.Now.AddDays(_pasetoSettings.RefreshTokenExpirationInDays);
+
+        if (isRefreshToken == false)
+            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(_pasetoSettings.RefreshTokenExpirationInDays);
 
         await _userManager.UpdateAsync(user);
 
@@ -158,12 +161,15 @@ public class PasetoTokenService : IPasetoTokenService
 
     private string GeneratePasetoToken(ApplicationUser user, string ipAddress)
     {
+        var claims = GetClaims(user, ipAddress);
+        var serializableClaims = claims.Select(c => SerializableClaim.FromClaim(c)).ToList();
+        _cacheService.Set("UserID_" + user.Id, serializableClaims, TimeSpan.FromMinutes(_pasetoSettings.TokenExpirationInMinutes));
+
         return new PasetoBuilder().Use(ProtocolVersion.V2, Purpose.Local)
                                .WithKey(GetSymmetricKeyAsBytes(), Encryption.SymmetricKey)
-                               .AddClaim("Claim", GetClaims(user, ipAddress))
+                               .AddClaim("Claim", GetUserIdClaim(user.Id))
                                .Expiration(DateTime.Now.AddMinutes(_pasetoSettings.TokenExpirationInMinutes))
                                .TokenIdentifier(user.Id + "_" + user.Email + "_" + DateTime.Now)
-                               .AddFooter(DateTime.Now.AddMinutes(_pasetoSettings.TokenExpirationInMinutes).ToString("dd/MM/yyyy HH:mm:ss"))
                                .Encode();
     }
 
@@ -244,6 +250,11 @@ public class PasetoTokenService : IPasetoTokenService
             return sha256.ComputeHash(bytes); // Luôn trả về 32 bytes
         }
     }
+    private IEnumerable<Claim> GetUserIdClaim(string userId) =>
+       new List<Claim>
+       {
+            new(TDClaims.NameIdentifier, userId),
+       };
 
     private IEnumerable<Claim> GetClaims(ApplicationUser user, string ipAddress) =>
         new List<Claim>
