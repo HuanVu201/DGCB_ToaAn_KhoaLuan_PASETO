@@ -42,6 +42,8 @@ public class PasetoAuthenticationHandler : AuthenticationHandler<AuthenticationS
 
         string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
         string[] tokenComponents = token.Split('.');
+
+        #region Xử lý kiểm tra public token
         if (tokenComponents.Length > 2 && tokenComponents[1].ToLower() == "public")
         {
             ProtocolVersion versionRequest = new ProtocolVersion();
@@ -97,6 +99,7 @@ public class PasetoAuthenticationHandler : AuthenticationHandler<AuthenticationS
 
             throw new UnauthorizedException("Authentication Failed.");
         }
+        #endregion
 
         string tokenLogout = _cacheService.Get<string>(token)?.ToString() ?? string.Empty;
         if (!string.IsNullOrEmpty(tokenLogout) && tokenLogout.Contains("Logout"))

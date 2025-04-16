@@ -61,7 +61,6 @@
         <PackageReference Include="System.ServiceModel.Http" Version="4.10.*" />
         <PackageReference Include="System.ServiceModel.NetTcp" Version="4.10.*" />
         <PackageReference Include="System.ServiceModel.Security" Version="4.10.*" />
-        <PackageReference Include="Tandan.OpenReport.Core" Version="3.0.0" />
         <PackageReference Include="ZymLabs.NSwag.FluentValidation.AspNetCore" Version="0.6.2" />
         <PackageReference Include="OrchardCore.Localization.Core" Version="1.7.2" />
         <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
@@ -85,26 +84,6 @@
     <ItemGroup>
         <ProjectReference Include="..\Core\Application\Application.csproj" />
         <ProjectReference Include="..\Core\Domain\Domain.csproj" />
-    </ItemGroup>
-    <ItemGroup>
-      <Reference Include="Syncfusion.Compression.Portable">
-        <HintPath>C:\Users\nghi1\Downloads\Tandan.OpenReport\Syncfusion.Compression.Portable.dll</HintPath>
-      </Reference>
-      <Reference Include="Syncfusion.DocIO.Portable">
-        <HintPath>C:\Users\nghi1\Downloads\Tandan.OpenReport\Syncfusion.DocIO.Portable.dll</HintPath>
-      </Reference>
-      <Reference Include="Syncfusion.Licensing">
-        <HintPath>C:\Users\nghi1\Downloads\Tandan.OpenReport\Syncfusion.Licensing.dll</HintPath>
-      </Reference>
-      <Reference Include="Syncfusion.OfficeChart.Portable">
-        <HintPath>C:\Users\nghi1\Downloads\Tandan.OpenReport\Syncfusion.OfficeChart.Portable.dll</HintPath>
-      </Reference>
-      <Reference Include="Syncfusion.XlsIO.Portable">
-        <HintPath>C:\Users\nghi1\Downloads\Tandan.OpenReport\Syncfusion.XlsIO.Portable.dll</HintPath>
-      </Reference>
-      <Reference Include="Tandan.OpenReport">
-        <HintPath>C:\Users\nghi1\Downloads\Report\src\Tandan.OpenReport\bin\Debug\netstandard2.0\Tandan.OpenReport.dll</HintPath>
-      </Reference>
     </ItemGroup>
     <ItemGroup>
         <None Update="Catalog\*.json" CopyToOutputDirectory="PreserveNewest" />
