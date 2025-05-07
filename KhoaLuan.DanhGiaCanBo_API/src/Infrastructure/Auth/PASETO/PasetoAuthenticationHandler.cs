@@ -11,6 +11,7 @@ using System.Security.Claims;
 using System.Text.Encodings.Web;
 using TD.DanhGiaCanBo.Application.Common.Caching;
 using TD.DanhGiaCanBo.Application.Common.Exceptions;
+using TD.DanhGiaCanBo.Application.Common.Persistence;
 using TD.DanhGiaCanBo.Infrastructure.Identity;
 using TD.DanhGiaCanBo.Shared.Authorization;
 
@@ -19,6 +20,7 @@ public class PasetoAuthenticationHandler : AuthenticationHandler<AuthenticationS
 {
     private readonly PasetoTokenService _pasetoTokenService;
     private readonly ICacheService _cacheService;
+    private readonly IDapperRepository _dapperRepository;
 
     public PasetoAuthenticationHandler(
         IOptionsMonitor<AuthenticationSchemeOptions> options,
@@ -26,11 +28,13 @@ public class PasetoAuthenticationHandler : AuthenticationHandler<AuthenticationS
         UrlEncoder encoder,
         ISystemClock clock,
         PasetoTokenService pasetoTokenService,
-        ICacheService cacheService)
+        ICacheService cacheService,
+        IDapperRepository dapperRepository)
         : base(options, logger, encoder, clock)
     {
         _pasetoTokenService = pasetoTokenService;
         _cacheService = cacheService;
+        _dapperRepository = dapperRepository;
     }
 
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
@@ -84,7 +88,21 @@ public class PasetoAuthenticationHandler : AuthenticationHandler<AuthenticationS
                 var typeUserClaim = claimsArr.FirstOrDefault(claim => claim["Type"].ToString() == "typeUser");
 
                 if (userIdClaim != null)
-                    user.Id = userIdClaim["Value"].ToString();
+                {
+                    string userIdFromToken = userIdClaim["Value"].ToString();
+
+                    string sqlCheckUser = @"
+                        SELECT FullName, UserName
+                        FROM [Identity].[Users]
+                        Where DeletedOn is null AND IsActive = 1 AND Id = @Id ";
+
+                    var dataCheck = await _dapperRepository.QueryFirstOrDefaultAsync<dynamic>(sqlCheckUser, new { Id = userIdFromToken });
+
+                    if (dataCheck == null)
+                        throw new UnauthorizedException("Authentication Failed.");
+
+                    user.Id = userIdFromToken;
+                }
 
                 if (typeUserClaim != null)
                     user.TypeUser = typeUserClaim["Value"].ToString();
